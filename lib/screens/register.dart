@@ -18,6 +18,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _confirmpasscontroller = TextEditingController();
   final _usernamecontroller = TextEditingController();
   final _agecontroller = TextEditingController();
+  final _weightcontroller = TextEditingController();
+  final _heightcontroller = TextEditingController();
 
   Future SignUp() async {
     if (passwordcheck()) {
@@ -29,6 +31,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       addUserDetails(
         _usernamecontroller.text.trim(),
         int.parse(_agecontroller.text.trim()),
+        int.parse(_weightcontroller.text.trim()),
+        int.parse(_heightcontroller.text.trim()),
         _emailcontroller.text.trim(),
       );
     }
@@ -37,11 +41,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future addUserDetails(
     String username,
     int userage,
+    int weight,
+    int height,
     String email,
   ) async {
     await FirebaseFirestore.instance.collection('users').add({
-      'user name': username,
+      'user_name': username,
       'age': userage,
+      'weight': weight,
+      'height': height,
       'email': email,
     });
   }
@@ -60,6 +68,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     _passwordcontroller.dispose();
     _usernamecontroller.dispose();
     _agecontroller.dispose();
+    _weightcontroller.dispose();
+    _heightcontroller.dispose();
     super.dispose();
   }
 
@@ -101,7 +111,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      hintText: 'Name',
+                      hintText: 'Full name',
                     ),
                   ),
                 ),
@@ -117,7 +127,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      hintText: 'Enter your email here',
+                      hintText: 'Email',
                     ),
                   ),
                 ),
@@ -125,17 +135,48 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(height: 15),
 
                 //age
-                Container(
-                  padding: const EdgeInsets.only(left: 30, right: 30),
-                  child: TextField(
-                    controller: _agecontroller,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                Row(
+                  children: [
+                    Container(
+                      width: 110,
+                      margin: const EdgeInsets.only(left: 30),
+                      child: TextField(
+                        controller: _agecontroller,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          hintText: 'Age',
+                        ),
                       ),
-                      hintText: 'Age',
                     ),
-                  ),
+                    const SizedBox(width: 10),
+                    Container(
+                      width: 110,
+                      child: TextField(
+                        controller: _weightcontroller,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          hintText: 'Weight',
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Container(
+                      width: 110,
+                      child: TextField(
+                        controller: _heightcontroller,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          hintText: 'Height',
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
 
                 const SizedBox(height: 15),
