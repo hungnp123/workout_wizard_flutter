@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:home_workout/screens/home_screen.dart';
 import 'package:home_workout/screens/register.dart';
-import 'package:home_workout/widget/auth_submit_button.dart';
-import 'package:home_workout/widget/custom_textfield.dart';
 
+import '../widget/auth_submit_button.dart';
+import '../widget/custom_textfield.dart';
 import '../widget/forgot_password.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   //final VoidCallback showRegisterScreen;
