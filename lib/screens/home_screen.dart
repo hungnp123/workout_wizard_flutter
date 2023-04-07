@@ -1,6 +1,9 @@
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
+
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_workout/screens/lowerbody.dart';
@@ -16,11 +19,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late String? uFullname;
+  var user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final user = FirebaseAuth.instance.currentUser;
-    late String? u_full_name;
+    //final user = FirebaseAuth.instance.currentUser;
+    //late String? u_full_name;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -40,6 +45,22 @@ class _HomePageState extends State<HomePage> {
                     'Hello ',
                     style: GoogleFonts.josefinSans(
                         color: Colors.black, fontSize: 24),
+                  ),
+                  FutureBuilder(
+                    future: _fetch(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState != ConnectionState.done) {
+                        return const Text('Loading...');
+                      } else {
+                        return Text(
+                          "$uFullname",
+                          style: GoogleFonts.josefinSans(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.deepOrange,
+                              fontSize: 24),
+                        );
+                      }
+                    },
                   ),
                   // Text(
                   //   user!.email!,
@@ -308,5 +329,22 @@ class _HomePageState extends State<HomePage> {
       ),
       // bottomNavigationBar: const NavBarWidget(),
     );
+  }
+
+  _fetch() async {
+    final firebaseUser = await FirebaseAuth.instance.currentUser;
+
+    if (firebaseUser != null) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(firebaseUser.uid)
+          .get()
+          .then((ds) {
+        var uFullname = ds.data()!['user_name'];
+        print(uFullname);
+      }).catchError((e) {
+        print(e);
+      });
+    }
   }
 }
