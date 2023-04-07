@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
@@ -16,11 +17,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late String? uFullname;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final user = FirebaseAuth.instance.currentUser;
-    late String? u_full_name;
+    //final user = FirebaseAuth.instance.currentUser;
+    //late String? u_full_name;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -41,6 +43,19 @@ class _HomePageState extends State<HomePage> {
                     style: GoogleFonts.josefinSans(
                         color: Colors.black, fontSize: 24),
                   ),
+                  FutureBuilder(
+                      future: _fetch(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(
+                            uFullname!,
+                            style: GoogleFonts.josefinSans(
+                                color: Colors.black, fontSize: 24),
+                          );
+                        } else {
+                          return const Text('Loading...');
+                        }
+                      }),
                   // Text(
                   //   user!.email!,
                   //   style: GoogleFonts.josefinSans(
@@ -308,5 +323,21 @@ class _HomePageState extends State<HomePage> {
       ),
       // bottomNavigationBar: const NavBarWidget(),
     );
+  }
+
+  _fetch() async {
+    final firebaseUser = await FirebaseAuth.instance.currentUser;
+    if (firebaseUser != null) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(firebaseUser.uid)
+          .get()
+          .then((ds) {
+        uFullname = ds.data()!['fullname'];
+        print(uFullname);
+      }).catchError((e) {
+        print(e);
+      });
+    }
   }
 }
