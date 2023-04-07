@@ -3,10 +3,6 @@ import 'package:home_workout/screens/content_model.dart';
 import 'package:home_workout/screens/home_screen.dart';
 import 'package:home_workout/screens/login_screen.dart';
 
-
-
-
-
 class Onboarding extends StatefulWidget {
   const Onboarding({super.key});
 
@@ -52,7 +48,6 @@ class _OnboardingState extends State<Onboarding> {
                     children: [
                       Image.asset(
                         contents[i].images,
-                        
                       ),
                       Text(
                         contents[i].title,
@@ -102,7 +97,7 @@ class _OnboardingState extends State<Onboarding> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => HomePage(),
+                      builder: (_) => const LoginScreen(),
                     ),
                   );
                 }

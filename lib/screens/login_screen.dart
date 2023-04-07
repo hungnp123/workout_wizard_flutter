@@ -1,35 +1,82 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_workout/screens/register.dart';
+import 'package:home_workout/widget/auth_submit_button.dart';
+import 'package:home_workout/widget/custom_textfield.dart';
 
 import '../widget/forgot_password.dart';
 
 class LoginScreen extends StatefulWidget {
-  final VoidCallback showRegisterScreen;
-  const LoginScreen({Key? key, required this.showRegisterScreen})
-      : super(key: key);
+  //final VoidCallback showRegisterScreen;
+  const LoginScreen({
+    Key? key,
+    //required this.showRegisterScreen
+  }) : super(key: key);
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailcontroller = TextEditingController();
-  final _passwordcontroller = TextEditingController();
+  final TextEditingController _emailcontroller = TextEditingController();
+  final TextEditingController _passwordcontroller = TextEditingController();
 
   Future logIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: _emailcontroller.text.trim(),
-      password: _passwordcontroller.text.trim(),
-    );
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailcontroller.text.trim(),
+        password: _passwordcontroller.text.trim(),
+      );
+      // ignore: use_build_context_synchronously
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            content: const Text('Login successful',
+                style: TextStyle(
+                    color: Colors.deepOrange,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(
+                    builder: (context) {
+                      return const LoginScreen();
+                    },
+                  ));
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } on FirebaseAuthException catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: const Color.fromARGB(224, 15, 28, 70),
+            content: Text(e.message.toString(),
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
+          );
+        },
+      );
+    }
   }
 
-  @override
-  void dispose() {
-    _emailcontroller.dispose();
-    _passwordcontroller.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _emailcontroller.dispose();
+  //   _passwordcontroller.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -67,14 +114,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 //email
                 Container(
                   padding: const EdgeInsets.only(left: 30, right: 30),
-                  child: TextField(
+                  child: AuthTextField(
+                    text: 'Email',
                     controller: _emailcontroller,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      hintText: 'Enter your email here',
-                    ),
+                    icon: Icons.email,
+                    isPasswordType: false,
                   ),
                 ),
 
@@ -83,15 +127,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 //password
                 Container(
                   padding: const EdgeInsets.only(left: 30, right: 30),
-                  child: TextField(
+                  child: AuthTextField(
+                    isPasswordType: true,
+                    icon: Icons.lock,
                     controller: _passwordcontroller,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      hintText: 'Enter your password',
-                    ),
+                    text: "Password",
                   ),
                 ),
 
@@ -152,17 +192,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           spreadRadius: 2.0,
                         ),
                       ]),
-                  child: TextButton(
-                    onPressed: logIn,
-                    child: const Text(
-                      'Login',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                  child: AuthButton(isLogin: true, onTap: () => logIn()),
                 ),
                 const SizedBox(
                   height: 25,
@@ -180,7 +210,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: widget.showRegisterScreen,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const RegisterScreen()));
+                      },
                       child: const Text(
                         'Register now',
                         style: TextStyle(
