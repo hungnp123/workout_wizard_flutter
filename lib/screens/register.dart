@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RegisterScreen extends StatefulWidget {
-  final VoidCallback showLoginScreen;
-  const RegisterScreen({Key? key, required this.showLoginScreen})
-      : super(key: key);
+  // final VoidCallback showLoginScreen;
+  const RegisterScreen({
+    Key? key,
+    // required this.showLoginScreen
+  }) : super(key: key);
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
 }
@@ -285,7 +287,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: widget.showLoginScreen,
+                      // onTap: widget.showLoginScreen,
                       child: const Text(
                         'Sign in here',
                         style: TextStyle(

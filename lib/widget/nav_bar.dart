@@ -1,68 +1,75 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:home_workout/screens/chat_suport.dart';
 import 'package:home_workout/screens/home_screen.dart';
 import 'package:home_workout/screens/profile_screen.dart';
 import 'package:home_workout/screens/workout_screen.dart';
+import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 
 class NavBarWidget extends StatefulWidget {
   const NavBarWidget({Key? key}) : super(key: key);
 
   @override
-  State<NavBarWidget> createState() => _NavBarWidgetState();
+  State<NavBarWidget> createState() => NavBarWidgetState();
 }
 
-class _NavBarWidgetState extends State<NavBarWidget> {
-  final List _screen =[
-    const HomePage(),
-    const WorkoutScreen(),
-    const ChatSp(),
-    const ProfilePage(),
-  ];
-  int currentIndex = 0;
-  void onTap(int index) {
-    setState(() {
-      currentIndex = index;
-    });
-  }
+class NavBarWidgetState extends State<NavBarWidget> {
+  final Color navigationBarColor = Colors.white;
+  late int selectedIndex = 1;
+  late PageController pageController;
+
   @override
+  void initState() {
+    super.initState();
+    pageController = PageController(initialPage: selectedIndex);
+  }
+
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _screen[currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: onTap,
-        currentIndex: currentIndex,
-        selectedItemColor: Colors.red[400],
-        unselectedItemColor: Colors.black45,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: const [
-          BottomNavigationBarItem(
-              label:'Home',
-              icon: Icon(
-            Boxicons.bxs_home,
-            size: 30,
-          )),
-          BottomNavigationBarItem(
-              label:'Workout',
-              icon: Icon(
-            Boxicons.bx_dumbbell,
-            size: 30,
-          )),
-          BottomNavigationBarItem(
-              label:'Chat Sp',
-              icon: Icon(
-            Boxicons.bx_conversation,
-            size: 30,
-          )),
-          BottomNavigationBarItem(
-              label:'Profile',
-              icon: Icon(
-            Boxicons.bx_user,
-            size: 30,
-          )),
-        ],
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(
+        systemNavigationBarColor: navigationBarColor,
+      ),
+      child: Scaffold(
+        body: PageView(
+          scrollDirection: axisDirectionToAxis(AxisDirection.right),
+          controller: pageController,
+          children: const <Widget>[
+            HomePage(),
+            WorkoutScreen(),
+            ChatSp(),
+            ProfilePage(),
+          ],
+        ),
+        bottomNavigationBar: WaterDropNavBar(
+          backgroundColor: Colors.white,
+          onItemSelected: (int index) {
+            setState(() {
+              selectedIndex = index;
+            });
+            pageController.animateToPage(selectedIndex,
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeOutQuad);
+          },
+          selectedIndex: selectedIndex,
+          barItems: <BarItem>[
+            BarItem(
+              filledIcon: Boxicons.bxs_home,
+              outlinedIcon: Boxicons.bx_home,
+            ),
+            BarItem(
+                filledIcon: Boxicons.bx_dumbbell,
+                outlinedIcon: Boxicons.bx_dumbbell),
+            BarItem(
+              filledIcon: Boxicons.bxs_comment,
+              outlinedIcon: Boxicons.bx_comment,
+            ),
+            BarItem(
+              filledIcon: Boxicons.bxs_user,
+              outlinedIcon: Boxicons.bx_user
+            ),
+          ],
+        ),
       ),
     );
   }

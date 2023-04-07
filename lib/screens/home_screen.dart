@@ -1,8 +1,10 @@
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boxicons/flutter_boxicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_workout/screens/lowerbody.dart';
+import 'package:home_workout/screens/profile_screen.dart';
 import 'package:home_workout/screens/upperbody.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -18,19 +20,20 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final user = FirebaseAuth.instance.currentUser;
+    late String? u_full_name;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
           children: <Widget>[
             Container(
-              height: size.height * .32,
+              height: size.height * .31,
               decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 239, 221, 212),
               ),
             ),
             Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.only(top: 60, left: 30, right: 30),
+              padding: EdgeInsets.only(top: 60, left: 30),
               child: Row(
                 children: [
                   Text(
@@ -38,27 +41,39 @@ class _HomePageState extends State<HomePage> {
                     style: GoogleFonts.josefinSans(
                         color: Colors.black, fontSize: 24),
                   ),
-                  Text(
-                    user!.email!,
-                    style: GoogleFonts.josefinSans(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.deepOrange,
-                        fontSize: 24),
-                  ),
-                  const SizedBox(width: 33),
-                  const CircleAvatar(
-                    backgroundColor: Color.fromARGB(255, 99, 227, 104),
-                    radius: 33,
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage('assets/avatar.png'),
-                      radius: 30,
+                  // Text(
+                  //   user!.email!,
+                  //   style: GoogleFonts.josefinSans(
+                  //       fontWeight: FontWeight.w600,
+                  //       color: Colors.deepOrange,
+                  //       fontSize: 24),
+                  // ),
+                  const SizedBox(width: 40),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const ProfilePage();
+                          },
+                        ),
+                      );
+                    },
+                    child: const CircleAvatar(
+                      backgroundColor: Colors.deepOrange,
+                      radius: 35,
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage('assets/avatar.png'),
+                        radius: 31,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
             Container(
-              padding: EdgeInsets.only(top: 135, left: 20, right: 20),
+              padding: EdgeInsets.only(top: 134, left: 20, right: 20),
               child: TableCalendar(
                 firstDay: DateTime.utc(2010, 10, 16),
                 lastDay: DateTime.utc(2030, 3, 14),
@@ -200,14 +215,16 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               const SizedBox(),
                               ElevatedButton(
-                                onPressed: () {Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return const UpperbodyWorkout();
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return const UpperbodyWorkout();
+                                      },
+                                    ),
+                                  );
                                 },
-                              ),
-                            );},
                                 child: const Text('Start'),
                               ),
                             ],
@@ -265,14 +282,16 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               const SizedBox(),
                               ElevatedButton(
-                                onPressed: () {Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return const LowerBodyWorkout();
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return const LowerBodyWorkout();
+                                      },
+                                    ),
+                                  );
                                 },
-                              ),
-                            );},
                                 child: const Text('Start'),
                               ),
                             ],
@@ -287,6 +306,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
+      // bottomNavigationBar: const NavBarWidget(),
     );
   }
 }
