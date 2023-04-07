@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_workout/screens/home_screen.dart';
 import 'package:home_workout/screens/register.dart';
 import 'package:home_workout/widget/auth_submit_button.dart';
 import 'package:home_workout/widget/custom_textfield.dart';
@@ -45,7 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      return const LoginScreen();
+                      return const HomePage();
                     },
                   ));
                 },
