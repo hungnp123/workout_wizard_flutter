@@ -45,6 +45,8 @@ dependencies:
   flutter_boxicons: ^3.0.0
   curved_navigation_bar: ^1.0.3
   blur: ^3.1.0
+  water_drop_nav_bar:
+  increment_decrement_form_field: ^1.0.0
 
 dev_dependencies:
   flutter_test:

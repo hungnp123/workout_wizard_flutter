@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:home_workout/screens/content_model.dart';
+import 'package:home_workout/screens/home_screen.dart';
 import 'package:home_workout/screens/login_screen.dart';
-import 'package:home_workout/widget/screen_flow.dart';
+
+
+
 
 
 class Onboarding extends StatefulWidget {
@@ -99,7 +102,7 @@ class _OnboardingState extends State<Onboarding> {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => ScreenFlow(),
+                      builder: (_) => HomePage(),
                     ),
                   );
                 }

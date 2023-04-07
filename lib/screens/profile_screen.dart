@@ -14,36 +14,36 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String? user_name = '';
-  String? email = '';
-  String? age = '';
-  String? weight = '';
-  String? height = '';
+  // String? user_name = '';
+  // String? email = '';
+  // String? age = '';
+  // String? weight = '';
+  // String? height = '';
 
-  Future _getData() async {
-    await FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .get()
-        .then(
-      (snapshot) async {
-        if (snapshot.exists) {
-          setState(() {
-            user_name = snapshot.data()!["user_name"];
-            email = snapshot.data()!["email"];
-            age = snapshot.data()!["age"];
-            weight = snapshot.data()!["weight"];
-            height = snapshot.data()!["height"];
-          });
-        }
-      },
-    );
-  }
+  // Future _getData() async {
+  //   await FirebaseFirestore.instance
+  //       .collection("users")
+  //       .doc(FirebaseAuth.instance.currentUser!.uid)
+  //       .get()
+  //       .then(
+  //     (snapshot) async {
+  //       if (snapshot.exists) {
+  //         setState(() {
+  //           user_name = snapshot.data()!["user_name"];
+  //           email = snapshot.data()!["email"];
+  //           age = snapshot.data()!["age"];
+  //           weight = snapshot.data()!["weight"];
+  //           height = snapshot.data()!["height"];
+  //         });
+  //       }
+  //     },
+  //   );
+  // }
 
   @override
   void initState() {
     super.initState();
-    _getData();
+    // _getData();
   }
 
   final user = FirebaseAuth.instance.currentUser;
@@ -68,10 +68,10 @@ class _ProfilePageState extends State<ProfilePage> {
               margin: EdgeInsets.only(top: 135),
               child: const CircleAvatar(
                 backgroundColor: Colors.white,
-                radius: 78,
+                radius: 79,
                 child: CircleAvatar(
                   backgroundImage: AssetImage('assets/avatar.png'),
-                  radius: 70,
+                  radius: 69,
                 ),
               ),
             ),
@@ -140,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ]),
             ),
             Container(
-              margin: EdgeInsets.only(top: 700),
+              margin: const EdgeInsets.only(top: 600),
               alignment: Alignment.bottomCenter,
               child: MaterialButton(
                 onPressed: () {
