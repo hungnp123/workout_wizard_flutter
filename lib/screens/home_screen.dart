@@ -8,7 +8,6 @@ import 'package:home_workout/screens/profile_screen.dart';
 import 'package:home_workout/screens/upperbody.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -17,7 +16,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -43,13 +41,13 @@ class _HomePageState extends State<HomePage> {
                     style: GoogleFonts.josefinSans(
                         color: Colors.black, fontSize: 24),
                   ),
-                  Text(
-                    user!.email!,
-                    style: GoogleFonts.josefinSans(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.deepOrange,
-                        fontSize: 24),
-                  ),
+                  // Text(
+                  //   user!.email!,
+                  //   style: GoogleFonts.josefinSans(
+                  //       fontWeight: FontWeight.w600,
+                  //       color: Colors.deepOrange,
+                  //       fontSize: 24),
+                  // ),
                   const SizedBox(width: 40),
                   InkWell(
                     onTap: () {
