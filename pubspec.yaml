@@ -38,13 +38,16 @@ dependencies:
   intl:
   google_fonts:
   table_calendar:
-  firebase_auth: ^4.3.0
+  firebase_auth: ^4.2.2
   firebase_core: ^2.8.0
   cloud_firestore: ^4.4.5
   dots_indicator: ^2.1.0
   flutter_boxicons: ^3.0.0
   curved_navigation_bar: ^1.0.3
   blur: ^3.1.0
+  liquid_swipe: ^3.1.0
+  smooth_page_indicator: ^1.0.1
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:

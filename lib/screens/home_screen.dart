@@ -1,7 +1,9 @@
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_workout/repos/auth_repo.dart';
 import 'package:home_workout/screens/lowerbody.dart';
 import 'package:home_workout/screens/upperbody.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -12,6 +14,8 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
 }
+
+late String? uFullname;
 
 class _HomePageState extends State<HomePage> {
   @override
@@ -33,17 +37,32 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.only(top: 60, left: 30, right: 30),
               child: Row(
                 children: [
+                  IconButton(
+                      onPressed: () {
+                        AuthenticationRepository.instance.logout();
+                      },
+                      icon: Icon(
+                        Icons.logout,
+                        color: Colors.black,
+                      )),
                   Text(
                     'Hello ',
                     style: GoogleFonts.josefinSans(
                         color: Colors.black, fontSize: 24),
                   ),
-                  Text(
-                    user!.email!,
-                    style: GoogleFonts.josefinSans(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.deepOrange,
-                        fontSize: 24),
+                  FutureBuilder(
+                    future: _fetch(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text(
+                          uFullname.toString(),
+                          style: GoogleFonts.josefinSans(
+                              color: Colors.black, fontSize: 24),
+                        );
+                      } else {
+                        return const Text('Loading...');
+                      }
+                    },
                   ),
                   const SizedBox(width: 33),
                   const CircleAvatar(
@@ -200,14 +219,16 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               const SizedBox(),
                               ElevatedButton(
-                                onPressed: () {Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return const UpperbodyWorkout();
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return const UpperbodyWorkout();
+                                      },
+                                    ),
+                                  );
                                 },
-                              ),
-                            );},
                                 child: const Text('Start'),
                               ),
                             ],
@@ -265,14 +286,16 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               const SizedBox(),
                               ElevatedButton(
-                                onPressed: () {Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return const LowerBodyWorkout();
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return const LowerBodyWorkout();
+                                      },
+                                    ),
+                                  );
                                 },
-                              ),
-                            );},
                                 child: const Text('Start'),
                               ),
                             ],
@@ -288,5 +311,21 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+}
+
+_fetch() async {
+  final firebaseUser = await FirebaseAuth.instance.currentUser;
+  if (firebaseUser != null) {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(firebaseUser.uid)
+        .get()
+        .then((ds) {
+      //uFullname = ds.data()!['user_name'];
+      print(uFullname);
+    }).catchError((e) {
+      print(e);
+    });
   }
 }

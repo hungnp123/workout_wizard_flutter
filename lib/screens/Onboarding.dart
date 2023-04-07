@@ -1,132 +1,68 @@
 import 'package:flutter/material.dart';
-import 'package:home_workout/screens/content_model.dart';
-import 'package:home_workout/screens/login_screen.dart';
-import 'package:home_workout/widget/screen_flow.dart';
 
+import 'package:get/get.dart';
+import 'package:home_workout/constants/colors.dart';
+import 'package:liquid_swipe/liquid_swipe.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class Onboarding extends StatefulWidget {
-  const Onboarding({super.key});
+import '../auth/controllers/on_boarding_controller.dart';
 
-  @override
-  State<Onboarding> createState() => _OnboardingState();
-}
-
-class _OnboardingState extends State<Onboarding> {
-  int currentPage = 0;
-  PageController _controller = PageController();
-  @override
-  void initState() {
-    _controller = PageController(initialPage: 0);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
+class OnBoardingScreen extends StatelessWidget {
+  const OnBoardingScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final obController = OnBoardingController();
+
     return Scaffold(
-      body: Column(
+      body: Stack(
+        alignment: Alignment.center,
         children: [
-          Expanded(
-            child: PageView.builder(
-              controller: _controller,
-              itemCount: contents.length,
-              onPageChanged: (int index) {
-                setState(
-                  () {
-                    currentPage = index;
-                  },
-                );
-              },
-              itemBuilder: (_, i) {
-                return Padding(
-                  padding: const EdgeInsets.all(40),
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        contents[i].images,
-                        
-                      ),
-                      Text(
-                        contents[i].title,
-                        style: const TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        contents[i].description,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          color: Colors.grey,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+          LiquidSwipe(
+            pages: obController.pages,
+            enableSideReveal: false,
+            liquidController: obController.controller,
+            onPageChangeCallback: obController.nPageChangedCallback,
+            waveType: WaveType.liquidReveal,
           ),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                contents.length,
-                (index) => dots_indicator(index, context),
+          Positioned(
+            bottom: 60,
+            child: OutlinedButton(
+              onPressed: () => obController.animateToNextSlide(),
+              style: ElevatedButton.styleFrom(
+                side: const BorderSide(color: Colors.black26),
+                shape: const CircleBorder(),
+                padding: const EdgeInsets.all(20),
+                foregroundColor: Colors.white,
+              ),
+              child: Container(
+                padding: const EdgeInsets.all(20.0),
+                decoration: const BoxDecoration(
+                    color: darkColor, shape: BoxShape.circle),
+                child: const Icon(Icons.arrow_forward_ios),
               ),
             ),
           ),
-          Container(
-            height: 60,
-            width: double.infinity,
-            margin: const EdgeInsets.all(80),
+          Positioned(
+            top: 50,
+            right: 20,
             child: TextButton(
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.deepOrange,
-                foregroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+              onPressed: () => obController.skip(),
+              child: const Text("Skip", style: TextStyle(color: Colors.grey)),
+            ),
+          ),
+          Obx(
+            () => Positioned(
+              bottom: 10,
+              child: AnimatedSmoothIndicator(
+                activeIndex: obController.currentPage.value,
+                count: 3,
+                effect: const ExpandingDotsEffect(
+                  activeDotColor: dotColor1,
                 ),
               ),
-              onPressed: () {
-                if (currentPage == contents.length - 1) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => ScreenFlow(),
-                    ),
-                  );
-                }
-                _controller.nextPage(
-                    duration: const Duration(milliseconds: 100),
-                    curve: Curves.bounceIn);
-              },
-              child: Text(
-                  style: const TextStyle(fontSize: 24),
-                  currentPage == contents.length - 1 ? "Continue" : "Next"),
             ),
-          )
+          ),
         ],
-      ),
-    );
-  }
-
-  Container dots_indicator(int index, BuildContext context) {
-    return Container(
-      height: 10,
-      width: currentPage == index ? 25 : 10,
-      margin: const EdgeInsets.only(right: 8),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: currentPage == index
-            ? const Color.fromARGB(255, 253, 107, 62)
-            : const Color.fromARGB(255, 199, 199, 199),
       ),
     );
   }
