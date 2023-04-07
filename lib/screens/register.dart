@@ -88,7 +88,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
     int height,
     String email,
   ) async {
-    await FirebaseFirestore.instance.collection('users').add({
+    var firebaseUser = await FirebaseAuth.instance.currentUser!;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(firebaseUser.uid)
+        .set({
       'user_name': username,
       'age': userage,
       'weight': weight,
@@ -246,9 +250,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                          const LoginScreen()
-                        ,));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const LoginScreen(),
+                            ));
                       },
                       child: const Text(
                         'Sign in here',
