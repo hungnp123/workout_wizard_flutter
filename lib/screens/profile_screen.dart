@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_workout/screens/login_screen.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -14,6 +15,35 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  Future signOut() async {
+    await FirebaseAuth.instance.signOut();
+    // ignore: use_build_context_synchronously
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: const Color.fromARGB(224, 15, 28, 70),
+          content: const Text("Are you sure you want to sign out",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold)),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen())),
+              child: const Text('Sign me out ',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   // String? user_name = '';
   // String? email = '';
   // String? age = '';
@@ -88,7 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Container(
                   alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(left:60, top: 40, right: 60),
+                  margin: EdgeInsets.only(left: 60, top: 40, right: 60),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -98,14 +128,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       Text(
                         '20',
-                        style: GoogleFonts.josefinSans(fontSize: 22, fontWeight: FontWeight.w600),
+                        style: GoogleFonts.josefinSans(
+                            fontSize: 22, fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
                 ),
                 Container(
                   alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(left:60, top: 25, right: 60),
+                  margin: EdgeInsets.only(left: 60, top: 25, right: 60),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -115,14 +146,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       Text(
                         '54kg',
-                        style: GoogleFonts.josefinSans(fontSize: 22, fontWeight: FontWeight.w600),
+                        style: GoogleFonts.josefinSans(
+                            fontSize: 22, fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
                 ),
                 Container(
                   alignment: Alignment.topLeft,
-                  margin: EdgeInsets.only(left:60, top: 25, right: 60),
+                  margin: EdgeInsets.only(left: 60, top: 25, right: 60),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -132,7 +164,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       Text(
                         '172cm',
-                        style: GoogleFonts.josefinSans(fontSize: 24, fontWeight: FontWeight.w600),
+                        style: GoogleFonts.josefinSans(
+                            fontSize: 24, fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
@@ -143,9 +176,7 @@ class _ProfilePageState extends State<ProfilePage> {
               margin: const EdgeInsets.only(top: 600),
               alignment: Alignment.bottomCenter,
               child: MaterialButton(
-                onPressed: () {
-                  FirebaseAuth.instance.signOut();
-                },
+                onPressed: () => signOut(),
                 color: Colors.deepOrange[300],
                 child: const Text('Sign Out',
                     style: TextStyle(color: Colors.black87, fontSize: 18)),
