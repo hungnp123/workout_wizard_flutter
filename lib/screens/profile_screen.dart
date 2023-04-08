@@ -15,6 +15,11 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  late String? uFullname;
+  late int? uAge;
+  late int? uHeight;
+  late int? uWeight;
+  var user = FirebaseAuth.instance.currentUser;
   Future signOut() async {
     await FirebaseAuth.instance.signOut();
     // ignore: use_build_context_synchronously
@@ -24,17 +29,13 @@ class _ProfilePageState extends State<ProfilePage> {
         return AlertDialog(
           backgroundColor: Colors.white,
           content: const Text("You want to sign out?",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20)),
+              style: TextStyle(color: Colors.black, fontSize: 20)),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const LoginScreen())),
               child: const Text('Sign me out ',
-                  style: TextStyle(
-                      color: Colors.deepOrange,
-                      fontSize: 20)),
+                  style: TextStyle(color: Colors.deepOrange, fontSize: 20)),
             ),
           ],
         );
@@ -46,8 +47,6 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
   }
-
-  final user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -79,13 +78,20 @@ class _ProfilePageState extends State<ProfilePage> {
             Container(
               child: Column(children: [
                 Container(
-                  alignment: Alignment.center,
                   margin: EdgeInsets.only(top: 310),
-                  child: Text(
-                    'Leonor',
-                    style: GoogleFonts.josefinSans(
-                        fontSize: 33, fontWeight: FontWeight.w600),
-                  ),
+                  child: FutureBuilder(
+                      future: _fetch(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState != ConnectionState.done) {
+                          return const Text('Loading...');
+                        } else {
+                          return Text(
+                            "$uFullname",
+                            style: GoogleFonts.josefinSans(
+                                fontWeight: FontWeight.w600,color: Colors.deepOrange, fontSize: 34),
+                          );
+                        }
+                      }),
                 ),
                 Container(
                   alignment: Alignment.topLeft,
@@ -97,11 +103,20 @@ class _ProfilePageState extends State<ProfilePage> {
                         'Age:',
                         style: GoogleFonts.josefinSans(fontSize: 22),
                       ),
-                      Text(
-                        '20',
-                        style: GoogleFonts.josefinSans(
-                            fontSize: 22, fontWeight: FontWeight.w600),
-                      ),
+                      FutureBuilder(
+                          future: _fetch(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState !=
+                                ConnectionState.done) {
+                              return const Text('Loading...');
+                            } else {
+                              return Text(
+                                "$uAge",
+                                style: GoogleFonts.josefinSans(
+                                    fontWeight: FontWeight.w600, fontSize: 22),
+                              );
+                            }
+                          }),
                     ],
                   ),
                 ),
@@ -115,11 +130,20 @@ class _ProfilePageState extends State<ProfilePage> {
                         'Weight:',
                         style: GoogleFonts.josefinSans(fontSize: 22),
                       ),
-                      Text(
-                        '54kg',
-                        style: GoogleFonts.josefinSans(
-                            fontSize: 22, fontWeight: FontWeight.w600),
-                      ),
+                      FutureBuilder(
+                          future: _fetch(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState !=
+                                ConnectionState.done) {
+                              return const Text('Loading...');
+                            } else {
+                              return Text(
+                                "$uWeight" + "kg",
+                                style: GoogleFonts.josefinSans(
+                                    fontWeight: FontWeight.w600, fontSize: 22),
+                              );
+                            }
+                          }),
                     ],
                   ),
                 ),
@@ -133,11 +157,20 @@ class _ProfilePageState extends State<ProfilePage> {
                         'Height:',
                         style: GoogleFonts.josefinSans(fontSize: 22),
                       ),
-                      Text(
-                        '172cm',
-                        style: GoogleFonts.josefinSans(
-                            fontSize: 24, fontWeight: FontWeight.w600),
-                      ),
+                      FutureBuilder(
+                          future: _fetch(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState !=
+                                ConnectionState.done) {
+                              return const Text('Loading...');
+                            } else {
+                              return Text(
+                                "$uHeight" + "cm",
+                                style: GoogleFonts.josefinSans(
+                                    fontWeight: FontWeight.w600, fontSize: 22),
+                              );
+                            }
+                          }),
                     ],
                   ),
                 ),
@@ -157,5 +190,25 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+
+  _fetch() async {
+    final firebaseUser = await FirebaseAuth.instance.currentUser;
+
+    if (firebaseUser != null) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(firebaseUser.uid)
+          .get()
+          .then((ds) {
+        uFullname = ds.data()!['user_name'];
+        uAge = ds.data()!['age'];
+        uHeight = ds.data()!['height'];
+        uWeight = ds.data()!['weight'];
+        print(uFullname);
+      }).catchError((e) {
+        print(e);
+      });
+    }
   }
 }
