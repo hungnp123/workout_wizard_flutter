@@ -22,21 +22,19 @@ class _ProfilePageState extends State<ProfilePage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: const Color.fromARGB(224, 15, 28, 70),
-          content: const Text("Are you sure you want to sign out",
+          backgroundColor: Colors.white,
+          content: const Text("You want to sign out?",
               style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold)),
+                color: Colors.black,
+                fontSize: 20)),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const LoginScreen())),
               child: const Text('Sign me out ',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold)),
+                      color: Colors.deepOrange,
+                      fontSize: 20)),
             ),
           ],
         );
@@ -44,36 +42,9 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  // String? user_name = '';
-  // String? email = '';
-  // String? age = '';
-  // String? weight = '';
-  // String? height = '';
-
-  // Future _getData() async {
-  //   await FirebaseFirestore.instance
-  //       .collection("users")
-  //       .doc(FirebaseAuth.instance.currentUser!.uid)
-  //       .get()
-  //       .then(
-  //     (snapshot) async {
-  //       if (snapshot.exists) {
-  //         setState(() {
-  //           user_name = snapshot.data()!["user_name"];
-  //           email = snapshot.data()!["email"];
-  //           age = snapshot.data()!["age"];
-  //           weight = snapshot.data()!["weight"];
-  //           height = snapshot.data()!["height"];
-  //         });
-  //       }
-  //     },
-  //   );
-  // }
-
   @override
   void initState() {
     super.initState();
-    // _getData();
   }
 
   final user = FirebaseAuth.instance.currentUser;

@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            backgroundColor: const Color.fromARGB(224, 15, 28, 70),
+            backgroundColor: Color.fromARGB(255, 237, 108, 69),
             content: Text(e.message.toString(),
                 style: const TextStyle(
                     color: Colors.white,
@@ -71,13 +71,6 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     }
   }
-
-  // @override
-  // void dispose() {
-  //   _emailcontroller.dispose();
-  //   _passwordcontroller.dispose();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +111,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: AuthTextField(
                     text: 'Email',
                     controller: _emailcontroller,
-                    icon: Icons.email,
                     isPasswordType: false,
                   ),
                 ),
@@ -130,7 +122,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: const EdgeInsets.only(left: 30, right: 30),
                   child: AuthTextField(
                     isPasswordType: true,
-                    icon: Icons.lock,
                     controller: _passwordcontroller,
                     text: "Password",
                   ),
@@ -139,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 15),
 
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -170,34 +161,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 20),
 
                 //login button
-                Container(
-                  width: 230,
-                  height: 50,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      gradient: const LinearGradient(
-                        colors: <Color>[
-                          Color.fromARGB(255, 246, 74, 128),
-                          Color.fromARGB(255, 248, 116, 59),
-                          Color.fromARGB(255, 245, 167, 66),
-                        ],
-                      ),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(
-                            0.2,
-                            0.5,
-                          ),
-                          blurRadius: 9.0,
-                          spreadRadius: 2.0,
-                        ),
-                      ]),
-                  child: AuthButton(isLogin: true, onTap: () => logIn()),
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
+                AuthButton(isLogin: true, onTap: () => logIn()),
+
+                const SizedBox(height: 25),
 
                 //register text
                 Row(
@@ -207,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       'Not a member? ',
                       style: TextStyle(
                         color: Color.fromARGB(255, 183, 183, 183),
-                        fontSize: 13,
+                        fontSize: 16,
                       ),
                     ),
                     GestureDetector(
@@ -222,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                           color: Colors.deepOrange,
                           fontWeight: FontWeight.bold,
-                          fontSize: 13,
+                          fontSize: 16,
                         ),
                       ),
                     ),
