@@ -20,12 +20,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late String? uFullname;
+  late int? uHeight;
+  late int? uWeight;
   var user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    //final user = FirebaseAuth.instance.currentUser;
-    //late String? u_full_name;
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -38,38 +38,33 @@ class _HomePageState extends State<HomePage> {
             ),
             Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.only(top: 60, left: 30),
+              padding: const EdgeInsets.only(top: 60, left: 30, right: 30),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Hello ',
-                    style: GoogleFonts.josefinSans(
-                        color: Colors.black, fontSize: 24),
-                  ),
-                  FutureBuilder(
-                    future: _fetch(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState != ConnectionState.done) {
-                        return const Text('Loading...');
-                      } else {
-                        return Text(
-                          "$uFullname",
-                          style: GoogleFonts.josefinSans(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.deepOrange,
-                              fontSize: 24),
-                        );
-                      }
-                    },
-                  ),
-                  // Text(
-                  //   user!.email!,
-                  //   style: GoogleFonts.josefinSans(
-                  //       fontWeight: FontWeight.w600,
-                  //       color: Colors.deepOrange,
-                  //       fontSize: 24),
-                  // ),
-                  const SizedBox(width: 40),
+                  Row(children: [
+                    Text(
+                      'Hello ',
+                      style: GoogleFonts.josefinSans(
+                          color: Colors.black, fontSize: 26),
+                    ),
+                    FutureBuilder(
+                        future: _fetch(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState !=
+                              ConnectionState.done) {
+                            return const Text('Loading...');
+                          } else {
+                            return Text(
+                              "$uFullname",
+                              style: GoogleFonts.josefinSans(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.deepOrange,
+                                  fontSize: 28),
+                            );
+                          }
+                        })
+                  ]),
                   InkWell(
                     onTap: () {
                       Navigator.push(
@@ -94,7 +89,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Container(
-              padding: EdgeInsets.only(top: 134, left: 20, right: 20),
+              padding: const EdgeInsets.only(top: 134, left: 20, right: 20),
               child: TableCalendar(
                 firstDay: DateTime.utc(2010, 10, 16),
                 lastDay: DateTime.utc(2030, 3, 14),
@@ -112,76 +107,171 @@ class _HomePageState extends State<HomePage> {
                       fontSize: 19,
                       fontWeight: FontWeight.bold),
                   todayDecoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: <Color>[
+                      gradient: const LinearGradient(colors: <Color>[
                         Color.fromARGB(255, 246, 74, 128),
                         Color.fromARGB(255, 248, 116, 59),
                         Color.fromARGB(255, 245, 167, 66),
-                      ],
-                    ),
-                    borderRadius: BorderRadius.circular(7),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(
-                          1.5,
-                          2.5,
-                        ),
-                        blurRadius: 2.0,
-                        spreadRadius: 1.5,
-                      ),
-                    ],
-                  ),
+                      ]),
+                      borderRadius: BorderRadius.circular(7),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(
+                            1.5,
+                            2.5,
+                          ),
+                          blurRadius: 2.0,
+                          spreadRadius: 1.5,
+                        )
+                      ]),
                   defaultDecoration: BoxDecoration(
-                    color: Color.fromARGB(255, 237, 237, 237),
-                    borderRadius: BorderRadius.circular(7),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(
-                          1.5,
-                          2.5,
-                        ),
-                        blurRadius: 2.0,
-                        spreadRadius: 1.5,
-                      ),
-                    ],
-                  ),
+                      color: Color.fromARGB(255, 237, 237, 237),
+                      borderRadius: BorderRadius.circular(7),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(
+                            1.5,
+                            2.5,
+                          ),
+                          blurRadius: 2.0,
+                          spreadRadius: 1.5,
+                        )
+                      ]),
                   weekendDecoration: BoxDecoration(
-                    color: Color.fromARGB(255, 237, 237, 237),
-                    borderRadius: BorderRadius.circular(7),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(
-                          1.5,
-                          2.5,
-                        ),
-                        blurRadius: 2.0,
-                        spreadRadius: 1.5,
-                      ),
-                    ],
-                  ),
+                      color: Color.fromARGB(255, 237, 237, 237),
+                      borderRadius: BorderRadius.circular(7),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(
+                            1.5,
+                            2.5,
+                          ),
+                          blurRadius: 2.0,
+                          spreadRadius: 1.5,
+                        )
+                      ]),
                   outsideDecoration: BoxDecoration(
-                    color: Color.fromARGB(255, 237, 237, 237),
-                    borderRadius: BorderRadius.circular(7),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(
-                          1.5,
-                          2.5,
-                        ),
-                        blurRadius: 2.0,
-                        spreadRadius: 1.5,
-                      ),
-                    ],
-                  ),
+                      color: Color.fromARGB(255, 237, 237, 237),
+                      borderRadius: BorderRadius.circular(7),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.grey,
+                          offset: Offset(
+                            1.5,
+                            2.5,
+                          ),
+                          blurRadius: 2.0,
+                          spreadRadius: 1.5,
+                        )
+                      ]),
                 ),
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                    margin: EdgeInsets.only(top: 305, left: 25),
+                    width: 168,
+                    height: 70,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(7),
+                      boxShadow: const [
+                        BoxShadow(
+                          offset: Offset(2, 5),
+                          blurRadius: 7,
+                          spreadRadius: 0.1,
+                          color: Color.fromARGB(255, 212, 212, 212),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(top: 10, left: 10),
+                          child: Text('Height: ',
+                              style: GoogleFonts.josefinSans(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                              )),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(top: 10, left: 10),
+                          child: FutureBuilder(
+                              future: _fetch(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState !=
+                                    ConnectionState.done) {
+                                  return const Text('Loading...');
+                                } else {
+                                  return Text(
+                                    "$uHeight" + "cm",
+                                    style: GoogleFonts.josefinSans(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.deepOrange,
+                                        fontSize: 18),
+                                  );
+                                }
+                              }),
+                        ),
+                      ],
+                    )),
+                Container(
+                    margin: EdgeInsets.only(top: 305, right: 25),
+                    width: 168,
+                    height: 70,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(7),
+                      boxShadow: const [
+                        BoxShadow(
+                          offset: Offset(2, 5),
+                          blurRadius: 7,
+                          spreadRadius: 0.1,
+                          color: Color.fromARGB(255, 212, 212, 212),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(top: 10, left: 10),
+                          child: Text('Weight: ',
+                              style: GoogleFonts.josefinSans(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                              )),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(top: 10, left: 10),
+                          child: FutureBuilder(
+                              future: _fetch(),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState !=
+                                    ConnectionState.done) {
+                                  return const Text('Loading...');
+                                } else {
+                                  return Text(
+                                    "$uWeight"+'kg',
+                                    style: GoogleFonts.josefinSans(
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.deepOrange,
+                                        fontSize: 18),
+                                  );
+                                }
+                              }),
+                        )
+                      ],
+                    )),
+              ],
+            ),
             Container(
-              padding: EdgeInsets.only(top: 310, left: 25),
+              padding: EdgeInsets.only(top: 410, left: 25),
               child: Text(
                 'Exercises: ',
                 style: GoogleFonts.josefinSans(
@@ -191,7 +281,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 350, left: 25, right: 25),
+              margin: EdgeInsets.only(top: 450, left: 25, right: 25),
               height: 180,
               decoration: BoxDecoration(
                 color: Colors.deepOrange,
@@ -258,7 +348,8 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 555, left: 25, right: 25),
+              margin:
+                  EdgeInsets.only(top: 655, left: 25, right: 25, bottom: 50),
               height: 180,
               decoration: BoxDecoration(
                 color: Colors.deepOrange,
@@ -327,7 +418,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      // bottomNavigationBar: const NavBarWidget(),
     );
   }
 
@@ -340,7 +430,9 @@ class _HomePageState extends State<HomePage> {
           .doc(firebaseUser.uid)
           .get()
           .then((ds) {
-        var uFullname = ds.data()!['user_name'];
+        uFullname = ds.data()!['user_name'];
+        uHeight = ds.data()!['height'];
+        uWeight = ds.data()!['weight'];
         print(uFullname);
       }).catchError((e) {
         print(e);

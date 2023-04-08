@@ -9,10 +9,8 @@ import 'package:home_workout/widget/auth_submit_button.dart';
 import 'package:home_workout/widget/custom_textfield.dart';
 
 class RegisterScreen extends StatefulWidget {
-  // final VoidCallback showLoginScreen;
   const RegisterScreen({
     Key? key,
-    // required this.showLoginScreen
   }) : super(key: key);
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -45,20 +43,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          backgroundColor: const Color.fromARGB(224, 15, 28, 70),
+          backgroundColor: Colors.white,
           title: const Text('Sign Up Successfully',
               style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-          // content: const Text('Please ok to log in again',
-          //     style:
-          //         TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                  TextStyle(color: Colors.deepOrange, fontWeight: FontWeight.bold)),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const HomePage())),
               child: const Text('OK',
                   style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold)),
+                      color: Colors.deepOrange, fontWeight: FontWeight.bold)),
             ),
           ],
         ),
@@ -69,7 +64,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            backgroundColor: const Color.fromARGB(224, 15, 28, 70),
+            backgroundColor: Color.fromARGB(255, 237, 108, 69),
             content: Text(e.message.toString(),
                 style: const TextStyle(
                     color: Colors.white,
@@ -136,7 +131,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: AuthTextField(
                     text: 'Email',
                     controller: _emailcontroller,
-                    icon: Icons.person,
                     isPasswordType: false,
                   ),
                 ),
@@ -148,7 +142,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   padding: const EdgeInsets.only(left: 30, right: 30),
                   child: AuthTextField(
                     text: 'Enter Name',
-                    icon: Icons.access_time_filled,
                     controller: _usernamecontroller,
                     isPasswordType: false,
                   ),
@@ -165,7 +158,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: AuthTextField(
                         text: 'Age',
                         controller: _agecontroller,
-                        icon: Icons.access_time_filled_rounded,
                         isPasswordType: false,
                       ),
                     ),
@@ -174,7 +166,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       width: 110,
                       child: AuthTextField(
                         text: 'Weight',
-                        icon: Icons.abc,
                         controller: _weightcontroller,
                         isPasswordType: false,
                       ),
@@ -184,7 +175,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       width: 110,
                       child: AuthTextField(
                         text: 'Height',
-                        icon: Icons.abc,
                         controller: _heightcontroller,
                         isPasswordType: false,
                       ),
@@ -200,40 +190,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: AuthTextField(
                     controller: _passwordcontroller,
                     text: 'Enter password',
-                    icon: Icons.lock,
                     isPasswordType: true,
                   ),
                 ),
                 const SizedBox(height: 20),
 
                 //login button
-                Container(
-                  width: 230,
-                  height: 50,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      gradient: const LinearGradient(
-                        colors: <Color>[
-                          Color.fromARGB(255, 246, 74, 128),
-                          Color.fromARGB(255, 248, 116, 59),
-                          Color.fromARGB(255, 245, 167, 66),
-                        ],
-                      ),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.grey,
-                          offset: Offset(
-                            0.2,
-                            0.5,
-                          ),
-                          blurRadius: 9.0,
-                          spreadRadius: 2.0,
-                        ),
-                      ]),
-                  child: AuthButton(
-                    isLogin: false,
-                    onTap: () => SignUp(),
-                  ),
+                AuthButton(
+                  isLogin: false,
+                  onTap: () => SignUp(),
                 ),
                 const SizedBox(height: 25),
 
@@ -245,7 +210,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       'Already have account? ',
                       style: TextStyle(
                         color: Color.fromARGB(255, 183, 183, 183),
-                        fontSize: 13,
+                        fontSize: 16,
                       ),
                     ),
                     GestureDetector(
@@ -261,7 +226,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         style: TextStyle(
                           color: Colors.deepOrange,
                           fontWeight: FontWeight.bold,
-                          fontSize: 13,
+                          fontSize: 16,
                         ),
                       ),
                     ),
