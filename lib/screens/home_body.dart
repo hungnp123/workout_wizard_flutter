@@ -36,7 +36,7 @@ class _HomeBodyState extends State<HomeBody> {
             Container(
               height: size.height * .31,
               decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 239, 221, 212),
+                color: Color.fromARGB(255, 246, 199, 175),
               ),
             ),
             Container(
@@ -49,7 +49,7 @@ class _HomeBodyState extends State<HomeBody> {
                     Text(
                       'Hello ',
                       style: GoogleFonts.josefinSans(
-                          color: Colors.black, fontSize: 26),
+                          color: Colors.black, fontSize: 22),
                     ),
                     FutureBuilder(
                         future: _fetch(),
@@ -63,7 +63,7 @@ class _HomeBodyState extends State<HomeBody> {
                               style: GoogleFonts.josefinSans(
                                   fontWeight: FontWeight.w600,
                                   color: Colors.deepOrange,
-                                  fontSize: 28),
+                                  fontSize: 24),
                             );
                           }
                         })
