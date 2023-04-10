@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
@@ -8,7 +10,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_workout/screens/exercise_detail.dart';
 import 'package:home_workout/screens/lowerbody.dart';
+import 'package:home_workout/screens/model/exercise_model.dart';
 import 'package:home_workout/screens/profile_screen.dart';
 import 'package:home_workout/screens/upperbody.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -22,11 +26,34 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
+  int selectedIndex = 0;
+  List<ExerciseModel> ExerciseList = [];
+  @override
+  void initState() {
+    super.initState();
+
+    getExercise();
+  }
+
   late String? uFullname;
   var user = FirebaseAuth.instance.currentUser;
+
+  getExercise() async {
+    var data = await FirebaseFirestore.instance.collection('execises').get();
+    setState(() {
+      ExerciseList = data.docs
+          .map(
+            (doc) => ExerciseModel.fromMap(doc.data()),
+          )
+          .toList();
+    });
+    print(ExerciseList);
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Stack(
@@ -192,7 +219,7 @@ class _HomeBodyState extends State<HomeBody> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 350, left: 25, right: 25),
+              margin: const EdgeInsets.only(top: 350, left: 25, right: 25),
               height: 180,
               decoration: BoxDecoration(
                 color: Colors.deepOrange,
@@ -205,8 +232,8 @@ class _HomeBodyState extends State<HomeBody> {
                     color: Color.fromARGB(255, 169, 169, 169),
                   ),
                 ],
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/uperbodyback.png'),
+                image: DecorationImage(
+                  image: AssetImage(ExerciseList[0].image),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -225,7 +252,7 @@ class _HomeBodyState extends State<HomeBody> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Upper Body: \n   \n5 mins',
+                            ExerciseList[0].name,
                             style: GoogleFonts.josefinSans(
                               color: Colors.white,
                               fontSize: 20,
@@ -241,10 +268,9 @@ class _HomeBodyState extends State<HomeBody> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) {
-                                        return const UpperbodyWorkout();
-                                      },
-                                    ),
+                                        builder: (context) => ExerciseDetail(
+                                              exerciseModel: ExerciseList[1],
+                                            )),
                                   );
                                 },
                                 child: const Text('Start'),
@@ -272,8 +298,8 @@ class _HomeBodyState extends State<HomeBody> {
                     color: Color.fromARGB(255, 169, 169, 169),
                   ),
                 ],
-                image: const DecorationImage(
-                  image: AssetImage('assets/images/lowerbodyback.png'),
+                image: DecorationImage(
+                  image: AssetImage(ExerciseList[1].image),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -292,7 +318,7 @@ class _HomeBodyState extends State<HomeBody> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Lower Body: \n   \n6 mins',
+                            ExerciseList[1].name,
                             style: GoogleFonts.josefinSans(
                               color: Colors.white,
                               fontSize: 20,
@@ -308,10 +334,9 @@ class _HomeBodyState extends State<HomeBody> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) {
-                                        return const LowerBodyWorkout();
-                                      },
-                                    ),
+                                        builder: (context) => ExerciseDetail(
+                                              exerciseModel: ExerciseList[0],
+                                            )),
                                   );
                                 },
                                 child: const Text('Start'),
@@ -348,3 +373,71 @@ class _HomeBodyState extends State<HomeBody> {
     }
   }
 }
+//   Widget buildExerciseCard(BuildContext context, int index) {
+//     return Container(
+//       margin: EdgeInsets.only(top: 350, left: 25, right: 25),
+//       height: 180,
+//       decoration: BoxDecoration(
+//         color: Colors.deepOrange,
+//         borderRadius: BorderRadius.circular(15),
+//         boxShadow: const [
+//           BoxShadow(
+//             offset: Offset(3, 7),
+//             blurRadius: 17,
+//             spreadRadius: 0.2,
+//             color: Color.fromARGB(255, 169, 169, 169),
+//           ),
+//         ],
+//         image: DecorationImage(
+//           image: AssetImage(ExerciseList[index].image),
+//           fit: BoxFit.cover,
+//         ),
+//       ),
+//       child: ClipRRect(
+//         borderRadius: BorderRadius.circular(15),
+//         child: BackdropFilter(
+//           filter: ImageFilter.blur(sigmaX: 0.6, sigmaY: 0.6),
+//           child: Container(
+//             decoration: BoxDecoration(color: Colors.black.withOpacity(0.5)),
+//             child: Container(
+//               alignment: Alignment.topLeft,
+//               padding: EdgeInsets.all(20),
+//               child: Column(
+//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   Text(
+//                     ExerciseList[index].name,
+//                     style: GoogleFonts.josefinSans(
+//                       color: Colors.white,
+//                       fontSize: 20,
+//                       fontWeight: FontWeight.w600,
+//                     ),
+//                   ),
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                     children: [
+//                       const SizedBox(),
+//                       ElevatedButton(
+//                         onPressed: () {
+//                           Navigator.push(
+//                             context,
+//                             MaterialPageRoute(
+//                                 builder: (context) => ExerciseDetail(
+//                                       exerciseModel: ExerciseList[index],
+//                                     )),
+//                           );
+//                         },
+//                         child: const Text('Start'),
+//                       ),
+//                     ],
+//                   ),
+//                 ],
+//               ),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

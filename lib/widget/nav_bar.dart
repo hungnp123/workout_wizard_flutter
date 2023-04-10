@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
-import 'package:home_workout/screens/chat_suport.dart';
+import 'package:home_workout/screens/chat_support.dart';
 import 'package:home_workout/screens/home_screen.dart';
 import 'package:home_workout/screens/profile_screen.dart';
 import 'package:home_workout/screens/workout_screen.dart';
@@ -37,7 +37,6 @@ class NavBarWidgetState extends State<NavBarWidget> {
           children: const <Widget>[
             HomePage(),
             WorkoutScreen(),
-            ChatSp(),
             ProfilePage(),
           ],
         ),
@@ -65,9 +64,7 @@ class NavBarWidgetState extends State<NavBarWidget> {
               outlinedIcon: Boxicons.bx_comment,
             ),
             BarItem(
-              filledIcon: Boxicons.bxs_user,
-              outlinedIcon: Boxicons.bx_user
-            ),
+                filledIcon: Boxicons.bxs_user, outlinedIcon: Boxicons.bx_user),
           ],
         ),
       ),

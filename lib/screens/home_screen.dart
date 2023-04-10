@@ -1,18 +1,15 @@
-import 'dart:ui';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 
-import 'package:google_fonts/google_fonts.dart';
-import 'package:home_workout/screens/chat_suport.dart';
+import 'package:home_workout/screens/chat_support.dart';
 import 'package:home_workout/screens/home_body.dart';
-import 'package:home_workout/screens/lowerbody.dart';
+
 import 'package:home_workout/screens/profile_screen.dart';
-import 'package:home_workout/screens/upperbody.dart';
+
 import 'package:home_workout/screens/workout_screen.dart';
-import 'package:table_calendar/table_calendar.dart';
+
 import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
+
+import '../api/chat_api.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,8 +19,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
+  late ChatApi chatApi;
   int selectedIndex = 0;
+  late int index;
   late PageController pageController;
 
   @override
@@ -41,11 +39,13 @@ class _HomePageState extends State<HomePage> {
         children: const <Widget>[
           HomeBody(),
           WorkoutScreen(),
-          ChatSp(),
+          ChatPage(),
           ProfilePage(),
         ],
       ),
       bottomNavigationBar: WaterDropNavBar(
+          waterDropColor: Colors.deepOrange,
+          bottomPadding: 10,
           barItems: <BarItem>[
             BarItem(
               filledIcon: Icons.home,
@@ -65,7 +65,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
           selectedIndex: selectedIndex,
-          onItemSelected: (index) {
+          onItemSelected: (int index) {
             setState(() {
               selectedIndex = index;
             });
@@ -75,5 +75,4 @@ class _HomePageState extends State<HomePage> {
           }),
     );
   }
-
 }
