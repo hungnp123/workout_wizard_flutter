@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_workout/screens/home_screen.dart';
 import 'package:home_workout/screens/lowerbody.dart';
+import 'package:home_workout/screens/lowerbodyworkout.dart';
 import 'package:home_workout/screens/upperbody.dart';
+import 'package:home_workout/screens/upperbodyworkout.dart';
 
 class WorkoutScreen extends StatelessWidget {
   const WorkoutScreen({super.key});
@@ -49,7 +52,20 @@ class WorkoutScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  padding: EdgeInsets.only(top: 120, left: 25),
+                  padding: EdgeInsets.only(top: 70,left: 25),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const HomePage();
+                      }));
+                    },
+                    child: const Icon(Icons.arrow_back_ios_new,
+                        size: 20, color: Colors.white),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(top: 35, left: 30),
                   child: Text(
                     'Trainning: ',
                     style: GoogleFonts.josefinSans(
@@ -60,7 +76,7 @@ class WorkoutScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 15),
                 Container(
-                  padding: const EdgeInsets.only(left: 26),
+                  padding: const EdgeInsets.only(left: 31),
                   width: size.width * .80,
                   child: Text(
                     'Take 10 to 15 minutes every day to practice the exercises that we have compiled below.',
@@ -103,7 +119,7 @@ class WorkoutScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      '6 exercises',
+                      '4 exercises',
                       style: GoogleFonts.josefinSans(
                         color: Colors.black,
                         fontSize: 18,
@@ -119,7 +135,7 @@ class WorkoutScreen extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return const UpperbodyWorkout();
+                                  return const UpperbodyExercises();
                                 },
                               ),
                             );
@@ -173,7 +189,7 @@ class WorkoutScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      '5 exercises',
+                      '4 exercises',
                       style: GoogleFonts.josefinSans(
                         color: Colors.black,
                         fontSize: 18,
@@ -189,7 +205,7 @@ class WorkoutScreen extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return const LowerBodyWorkout();
+                                  return const LowerbodyExercises();
                                 },
                               ),
                             );

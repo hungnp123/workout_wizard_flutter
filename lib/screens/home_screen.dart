@@ -38,8 +38,8 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: CurvedNavigationBar(
           height: 60.0,
           backgroundColor: Colors.white,
-          color: const Color.fromARGB(255, 254, 128, 90),
-          buttonBackgroundColor: const Color.fromARGB(255, 254, 128, 90),
+          color: const Color.fromARGB(255, 253, 135, 99),
+          buttonBackgroundColor: const Color.fromARGB(255, 253, 135, 99),
           animationCurve: Curves.easeInOut,
           animationDuration: const Duration(milliseconds: 300),
           items: const <Widget>[

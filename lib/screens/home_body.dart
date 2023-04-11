@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:flutter/material.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:home_workout/screens/lowerbody.dart';
+import 'package:home_workout/screens/lowerbodyworkout.dart';
 import 'package:home_workout/screens/profile_screen.dart';
 import 'package:home_workout/screens/upperbody.dart';
+import 'package:home_workout/screens/upperbodyworkout.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:water_drop_nav_bar/water_drop_nav_bar.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({super.key});
@@ -334,7 +330,7 @@ class _HomeBodyState extends State<HomeBody> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return const UpperbodyWorkout();
+                                        return const UpperbodyExercises();
                                       },
                                     ),
                                   );
@@ -402,7 +398,7 @@ class _HomeBodyState extends State<HomeBody> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) {
-                                        return const LowerBodyWorkout();
+                                        return const LowerbodyExercises();
                                       },
                                     ),
                                   );
