@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:home_workout/screens/home_screen.dart';
 import 'package:home_workout/screens/login_screen.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -62,6 +63,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 image: AssetImage('assets/images/icarus.jpg'),
                 fit: BoxFit.cover,
               )),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 70, left: 30),
+              child: InkWell(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return const HomePage();
+                      }));
+                    },
+                    child: const Icon(Icons.arrow_back_ios_new,
+                        size: 30, color: Colors.white),
+                  ),
             ),
             Container(
               alignment: Alignment.center,
