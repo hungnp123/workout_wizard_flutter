@@ -1,7 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
-import 'package:home_workout/screens/chat_suport.dart';
+import 'package:home_workout/screens/chat_support.dart';
+
 import 'package:home_workout/screens/home_body.dart';
 import 'package:home_workout/screens/profile_screen.dart';
 import 'package:home_workout/screens/workout_screen.dart';
@@ -31,7 +32,7 @@ class _HomePageState extends State<HomePage> {
         children: const <Widget>[
           HomeBody(),
           WorkoutScreen(),
-          ChatSp(),
+          ChatPage(),
           ProfilePage(),
         ],
       ),

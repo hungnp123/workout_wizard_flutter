@@ -48,6 +48,9 @@ dependencies:
   water_drop_nav_bar:
   increment_decrement_form_field: ^1.0.0
   flutter_gif: 
+  youtube_player_flutter: ^8.1.2
+  dart_openai: ^1.8.0
+  markdown_widget: ^2.0.0+1
 
 dev_dependencies:
   flutter_test:
